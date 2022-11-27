@@ -5,7 +5,7 @@ void sphereCenter(float x, float y, float z);
 void sphereColorSurface(float r, float g, float b);
 void sphereColorEmission(float r, float g, float b);
 void sphereRadius(float radius);
-void shperePhysics(float transparency, float reflection);
+void spherePhysics(float transparency, float reflection);
 void setSphere();
 
 #endif

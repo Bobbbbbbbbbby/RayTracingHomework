@@ -1,5 +1,6 @@
 #include "tools.h"
 #include <math.h>
+#include "svpng.inc"
 
 void normalize(direction_t* direction)
 {
@@ -25,5 +26,31 @@ void setColor(int x, int y, unsigned char r, unsigned char g, unsigned char b)
 
 void imageOutput()
 {
-    
+    FILE* fd;
+    fd = fopen("output.png", "w+");
+
+    svpng(fd, WIDTH, HEIGHT, image, 0);
+
+    fclose(fd);
+}
+
+float vecDot(vector_t a, vector_t b)
+{
+    float ret = a.x * b.x + a.y * b.y + a.z * b.z;
+    return ret;
+}
+
+float max(float a, float b)
+{
+    if(a >= b)
+        return a;
+    else
+        return b;
+}
+
+float mix(float a, float b, float ratio)
+{
+    float ret;
+    ret = a * ratio + b * (1 - ratio);
+    return ret;
 }

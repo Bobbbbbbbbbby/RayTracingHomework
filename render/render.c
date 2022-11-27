@@ -2,8 +2,7 @@
 #include "../tools/tools.h"
 #include <math.h>
 
-extern 
-void render()
+extern void render()
 {
     float invWidth  = 1.0 / (float) WIDTH;
     float invHeight = 1.0 / (float) HEIGHT;

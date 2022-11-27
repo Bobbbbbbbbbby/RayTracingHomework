@@ -21,21 +21,21 @@ int main()
 
 void initScene()
 {
-    sphereCenter(0.0, -10.0, -20.0);
-    sphereRadius(10.0);
-    sphereColorSurface(0.2, 0.2, 0.2);
+    sphereCenter(0.0, 0.0, -50.0);
+    sphereRadius(6.0);
+    sphereColorSurface(0.2, 0.6, 0.2);
     sphereColorEmission(0, 0, 0);
-    shperePhysics(0.0, 0.0);
+    spherePhysics(1.0, 1.0);
     setSphere();
 
-    sphereCenter(0.0, 0.0, -20.0);
-    sphereRadius(4.0);
-    sphereColorSurface(1.00, 0.32, 0.36);
+    sphereCenter(5.0, 5.0, -20.0);
+    sphereRadius(2.0);
+    sphereColorSurface(0.33, 1.00, 0.36);
     sphereColorEmission(0.0, 0.0, 0.0);
-    shperePhysics(1, 0.5);
+    spherePhysics(1, 0.5);
     setSphere();
 
-    sphereCenter(0.0, 20.0, -30.0);
+    sphereCenter(360.0, 720.0, 500.0);
     sphereRadius(3.0);
     sphereColorSurface(0.0, 0.0, 0.0);
     sphereColorEmission(1.0, 1.0, 1.0);

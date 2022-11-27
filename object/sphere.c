@@ -36,4 +36,5 @@ void spherePhysics(float transparency, float reflection)
 void setSphere()
 {
     objects[objectNum].type = SPHERE;
+    objectNum++;
 }

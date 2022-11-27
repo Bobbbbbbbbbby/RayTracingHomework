@@ -4,7 +4,6 @@
 #define WIDTH   1280
 #define HEIGHT  720
 #define DEPTH   640
-#define INFINITY    -1
 
 typedef struct point
 {
@@ -13,13 +12,15 @@ typedef struct point
     float z;
 } point_t;
 
-// direction is normalized
-typedef struct direction
+typedef struct vector
 {
     float x;
     float y;
     float z;
-} direction_t;
+} vector_t;
+
+// direction is normalized
+typedef vector_t direction_t;
 
 typedef struct color
 {

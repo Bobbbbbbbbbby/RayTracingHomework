@@ -1,5 +1,6 @@
 # Ray Tracing Homework
-Modified from the given code in the slice of exercise class
+Modified into `C Programming Language` from the given code in the slice of exercise class<br>
+Because I cannot understand C++
 
 ## Directories
 ```

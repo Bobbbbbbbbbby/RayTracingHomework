@@ -21,24 +21,46 @@ int main()
 
 void initScene()
 {
+    sphereCenter(0.0, -10003.0, 0.0);
+    sphereRadius(10000.0);
+    sphereColorSurface(0.5, 0.5, 0.5);
+    sphereColorEmission(0, 0, 0);
+    spherePhysics(0.0, 0.7);
+    setSphere();
+
+
     sphereCenter(0.0, 0.0, -50.0);
-    sphereRadius(6.0);
-    sphereColorSurface(0.2, 0.6, 0.2);
+    sphereRadius(2.0);
+    sphereColorSurface(0.2, 0.9, 0.2);
+    sphereColorEmission(0, 0, 0);
+    spherePhysics(0.0, 1.0);
+    setSphere();
+
+    sphereCenter(3.0, 0.0, -20.0);
+    sphereRadius(3.0);
+    sphereColorSurface(0.2, 0.2, 0.8);
     sphereColorEmission(0, 0, 0);
     spherePhysics(1.0, 1.0);
     setSphere();
 
-    sphereCenter(5.0, 5.0, -20.0);
+    sphereCenter(5.0, 0.0, -20.0);
     sphereRadius(2.0);
     sphereColorSurface(0.33, 1.00, 0.36);
     sphereColorEmission(0.0, 0.0, 0.0);
-    spherePhysics(1, 0.5);
+    spherePhysics(1, 1);
     setSphere();
 
-    sphereCenter(360.0, 720.0, 500.0);
+    sphereCenter(-5.0, 2.0, -30.0);
+    sphereRadius(2.0);
+    sphereColorSurface(1.00, 1.00, 0.36);
+    sphereColorEmission(0.0, 0.0, 0.0);
+    spherePhysics(1, 1);
+    setSphere();
+
+    sphereCenter(-10.0, 5.0, -40.0);
     sphereRadius(3.0);
-    sphereColorSurface(0.0, 0.0, 0.0);
-    sphereColorEmission(1.0, 1.0, 1.0);
-    spherePhysics(0.0, 0.0);
+    sphereColorSurface(1.0, 0.0, 0.0);
+    sphereColorEmission(1.0, 0.0, 0.0);
+    spherePhysics(1.0, 1.0);
     setSphere();
 }

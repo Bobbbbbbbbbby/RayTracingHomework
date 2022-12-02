@@ -51,6 +51,6 @@ float max(float a, float b)
 float mix(float a, float b, float ratio)
 {
     float ret;
-    ret = a * ratio + b * (1 - ratio);
+    ret = a * (1 - ratio) + b * ratio;
     return ret;
 }

@@ -3,9 +3,9 @@
 #include "../tools/tools.h"
 #include <math.h>
 
-#define MAX_DEPTH 30
+#define MAX_DEPTH 100
 extern object_t objects[MAX_OBJ_NUM];
-int intersect(point_t origin, direction_t direction, float* t0, float* t1, int objectIdx);
+int intersect(point_t origin, direction_t direction, float *t0, float *t1, int objectIdx);
 
 color_t rayTracing(point_t rayOrigin, direction_t direction, int depth)
 {
@@ -15,29 +15,29 @@ color_t rayTracing(point_t rayOrigin, direction_t direction, int depth)
     white.b = 1;
     float tnear = INFINITY;
     int nearObjectIdx = -1;
-    for(int i = 0; i < objectNum; i++)
+    for (int i = 0; i < objectNum; i++)
     {
         float t0 = INFINITY;
         float t1 = INFINITY;
         point_t origin;
-        origin.x = 0;
-        origin.y = 0;
-        origin.z = 0;
-        if(intersect(origin, direction, &t0, &t1, i))
+        origin.x = rayOrigin.x;
+        origin.y = rayOrigin.y;
+        origin.z = rayOrigin.z;
+        if (intersect(origin, direction, &t0, &t1, i))
         {
-            if(t0 < 0)
+            if (t0 < 0)
                 t0 = t1;
-            if(t0 < tnear)
+            if (t0 < tnear)
             {
                 tnear = t0;
                 nearObjectIdx = i;
             }
         }
     }
-    if(nearObjectIdx == -1)
+    if (nearObjectIdx == -1)
         return white;
-    
-    if(objects[nearObjectIdx].type == SPHERE)
+
+    if (objects[nearObjectIdx].type == SPHERE)
     {
         color_t surfaceColor;
         object_t target = objects[nearObjectIdx];
@@ -60,7 +60,7 @@ color_t rayTracing(point_t rayOrigin, direction_t direction, int depth)
         normalize(&centerToHitPoint);
 
         float bias = 1e-4;
-        if(vecDot(direction, centerToHitPoint) > 0)
+        if (vecDot(direction, centerToHitPoint) > 0)
         {
             centerToHitPoint.x = 0 - centerToHitPoint.x;
             centerToHitPoint.y = 0 - centerToHitPoint.y;
@@ -68,7 +68,7 @@ color_t rayTracing(point_t rayOrigin, direction_t direction, int depth)
             inside = 1;
         }
 
-        if((target.transparency > 0 || target.reflection > 0) && depth < MAX_DEPTH)
+        if ((target.transparency > 0 || target.reflection > 0) && depth < MAX_DEPTH)
         {
             float facingRatio;
             float fresnelEffect;
@@ -95,7 +95,7 @@ color_t rayTracing(point_t rayOrigin, direction_t direction, int depth)
             newOrigin.z = hitPoint.z + centerToHitPoint.z * bias;
             nextReflection = rayTracing(newOrigin, reflectDirection, depth + 1);
 
-            if(target.transparency > 0)
+            if (target.transparency > 0)
             {
                 float ior;
                 float eta;
@@ -112,23 +112,23 @@ color_t rayTracing(point_t rayOrigin, direction_t direction, int depth)
                 refractionDirection.y = direction.y * eta + centerToHitPoint.y * (eta * cosi - sqrt(k));
                 refractionDirection.z = direction.z * eta + centerToHitPoint.z * (eta * cosi - sqrt(k));
                 normalize(&refractionDirection);
-                
+
                 newOrigin1.x = hitPoint.x - centerToHitPoint.x * bias;
                 newOrigin1.y = hitPoint.y - centerToHitPoint.y * bias;
                 newOrigin1.z = hitPoint.z - centerToHitPoint.z * bias;
 
                 nextRefraction = rayTracing(newOrigin1, refractionDirection, depth + 1);
             }
-            surfaceColor.r = (nextReflection.r * fresnelEffect + nextRefraction.r * (1 - fresnelEffect) * target.transparency) * target.colorSurface.r;
-            surfaceColor.g = (nextReflection.g * fresnelEffect + nextRefraction.g * (1 - fresnelEffect) * target.transparency) * target.colorSurface.g;
-            surfaceColor.b = (nextReflection.b * fresnelEffect + nextRefraction.b * (1 - fresnelEffect) * target.transparency) * target.colorSurface.b;
+            surfaceColor.r = (nextReflection.r * fresnelEffect * target.reflection + nextRefraction.r * (1 - fresnelEffect) * target.transparency) * target.colorSurface.r;
+            surfaceColor.g = (nextReflection.g * fresnelEffect * target.reflection + nextRefraction.g * (1 - fresnelEffect) * target.transparency) * target.colorSurface.g;
+            surfaceColor.b = (nextReflection.b * fresnelEffect * target.reflection + nextRefraction.b * (1 - fresnelEffect) * target.transparency) * target.colorSurface.b;
         }
         else
         {
-            for(int i = 0; i < objectNum; i++)
+            for (int i = 0; i < objectNum; i++)
             {
                 object_t target = objects[i];
-                if(target.type == SPHERE && (target.colorEmission.r > 0 || target.colorEmission.g > 0 || target.colorEmission.b > 0))
+                if (target.type == SPHERE && (target.colorEmission.r > 0 || target.colorEmission.g > 0 || target.colorEmission.b > 0))
                 {
                     float transmission = 1;
                     vector_t lightDirection;
@@ -137,16 +137,16 @@ color_t rayTracing(point_t rayOrigin, direction_t direction, int depth)
                     lightDirection.z = target.center.z - hitPoint.z;
                     normalize(&lightDirection);
 
-                    for(int j = 0; j < objectNum; j++)
+                    for (int j = 0; j < objectNum; j++)
                     {
-                        if(j != i)
+                        if (j != i)
                         {
                             float t0, t1;
                             point_t temp;
                             temp.x = hitPoint.x + centerToHitPoint.x * bias;
                             temp.y = hitPoint.y + centerToHitPoint.y * bias;
                             temp.z = hitPoint.z + centerToHitPoint.z * bias;
-                            if(intersect(temp, lightDirection, &t0, &t1, j))
+                            if (intersect(temp, lightDirection, &t0, &t1, j))
                             {
                                 transmission = 0;
                                 break;
@@ -167,13 +167,12 @@ color_t rayTracing(point_t rayOrigin, direction_t direction, int depth)
     }
 }
 
-int intersect(point_t origin, direction_t direction, float* t0, float* t1, int objectIdx)
+int intersect(point_t origin, direction_t direction, float *t0, float *t1, int objectIdx)
 {
-    if(objects[objectIdx].type == FACE)
+    if (objects[objectIdx].type == FACE)
     {
-
     }
-    else if(objects[objectIdx].type == SPHERE)
+    else if (objects[objectIdx].type == SPHERE)
     {
         float radiusSquare = objects[objectIdx].radiusSquare;
         point_t center;
@@ -187,13 +186,13 @@ int intersect(point_t origin, direction_t direction, float* t0, float* t1, int o
         l.z = center.z - origin.z;
 
         float dotProduct = vecDot(direction, l);
-        if(dotProduct < 0)
+        if (dotProduct < 0)
             return 0;
-        
+
         float distance = vecDot(l, l) - dotProduct * dotProduct;
-        if(distance > radiusSquare)
+        if (distance > radiusSquare)
             return 0;
-        
+
         float thc = sqrt(radiusSquare - distance);
         *t0 = dotProduct - thc;
         *t1 = dotProduct + thc;
